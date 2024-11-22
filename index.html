@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản Lý Sân Bóng</title>
+</head>
+<body>
+    <h1>Quản Lý Sân Bóng</h1>
+    
+    <!-- Flash messages -->
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+    <!-- Booking Form -->
+    <h2>Đặt Sân</h2>
+    <form method="POST" action="/add_booking">
+        <label for="customer_name">Tên Khách Hàng:</label>
+        <input type="text" id="customer_name" name="customer_name">
+        <label for="field_number">Số Sân:</label>
+        <input type="text" id="field_number" name="field_number">
+        <label for="amount">Số Tiền:</label>
+        <input type="text" id="amount" name="amount">
+        <button type="submit">Thêm</button>
+    </form>
+
+    <h2>Thống Kê</h2>
+    <p>Tổng Số Tiền Thu Được: {{ total_amount }}</p>
+    <p>Tổng Số Sân Đã Đặt: {{ total_bookings }}</p>
+
+    <h3>Chi Tiết Khách Hàng:</h3>
+<ul>
+    {% if bookings %}
+        {% for booking in bookings %}
+            <li>Tên: {{ booking[0] }}, Số Sân: {{ booking[1] }}, Số Tiền: {{ booking[2] }}</li>
+        {% endfor %}
+    {% else %}
+        <p>Không có khách hàng nào.</p>
+    {% endif %}
+</ul>
+
+
+    <!-- Update Customer -->
+    <h2>Cập Nhật</h2>
+    <form method="POST" action="/update_booking">
+        <label for="search_name">Tên Khách Hàng Cần Cập Nhật:</label>
+        <input type="text" id="search_name" name="search_name">
+        <label for="new_name">Tên Khách Hàng Mới:</label>
+        <input type="text" id="new_name" name="new_name">
+        <label for="new_field_number">Số Sân Mới:</label>
+        <input type="text" id="new_field_number" name="new_field_number">
+        <label for="new_amount">Số Tiền Mới:</label>
+        <input type="text" id="new_amount" name="new_amount">
+        <button type="submit">Cập Nhật</button>
+    </form>
+
+    <!-- Delete Customer -->
+    <h2>Xóa Khách Hàng</h2>
+    <form method="POST" action="/delete_booking">
+        <label for="delete_name">Tên Khách Hàng Cần Xóa:</label>
+        <input type="text" id="delete_name" name="search_name">
+        <button type="submit">Xóa</button>
+    </form>
+
+    <!-- Find Customer -->
+    <h2>Tìm Khách Hàng</h2>
+    <form method="POST" action="/find_customer">
+        <label for="find_name">Tên Khách Hàng:</label>
+        <input type="text" id="find_name" name="find_name">
+        <button type="submit">Tìm</button>
+    </form>
+
+    {% if customer %}
+        <h3>Thông Tin Khách Hàng</h3>
+        <p>Tên Khách Hàng: {{ customer[0] }}</p>
+        <p>Số Sân: {{ customer[1] }}</p>
+        <p>Số Tiền: {{ customer[2] }}</p>
+    {% endif %}
+</body>
+</html>
